@@ -6,7 +6,10 @@
 #include <linux/fs.h>
 #include <linux/ioctl.h>
 
+#include "diagnose.h"
 #include "load/load.h"
+
+extern long load_ioctl(struct file*, unsigned int, unsigned long);
 
 struct diag_dev {
 	struct cdev cdev;
@@ -27,6 +30,7 @@ static long diag_ioctl(struct file *filp, unsigned int cmd, unsigned long args) 
 }
 
 struct file_operations diag_ops = {
+	.owner = THIS_MODULE,
         .unlocked_ioctl = diag_ioctl,
 };
 
