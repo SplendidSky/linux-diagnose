@@ -1,0 +1,21 @@
+#!/bin/bash
+if [ -z $1 ]; then
+	interval=1
+else
+	interval=$1
+fi
+
+while true;
+do
+	date
+	pid=$(ps -aux | awk '{if($8 == "D"){print $2}}') # get pid of process in D status
+	comm=$(ps -aux | awk '{if($8 == "D"){print $11}}') 
+	for i in $pid;
+	do
+		echo "PID:$i stack is as below: "
+		cat /proc/$i/stack
+	done
+	echo ""
+	sleep ${interval}
+done
+
